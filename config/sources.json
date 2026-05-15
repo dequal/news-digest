@@ -1,0 +1,14 @@
+{
+  "rss": [
+    { "key": "tech_36kr",   "url": "https://36kr.com/feed",         "label": "36氪",        "category": "tech" },
+    { "key": "tech_tc",     "url": "https://techcrunch.com/feed/",   "label": "TechCrunch",  "category": "tech" },
+    { "key": "npr_tech",    "url": "https://feeds.npr.org/1019/rss.xml", "label": "NPR Tech", "category": "tech" },
+    { "key": "npr_biz",     "url": "https://feeds.npr.org/1001/rss.xml", "label": "NPR Business", "category": "econ" },
+    { "key": "npr_world",   "url": "https://feeds.npr.org/1003/rss.xml", "label": "NPR World",  "category": "intl" }
+  ],
+  "search": [
+    { "keyword": "AI 人工智能 科技 最新进展", "category": "tech", "max_results": 6 },
+    { "keyword": "A股 股市 经济 政策 最新", "category": "econ", "max_results": 6 },
+    { "keyword": "国际 地缘政治 中美 欧洲最新消息", "category": "intl", "max_results": 6 }
+  ]
+}
