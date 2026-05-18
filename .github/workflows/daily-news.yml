@@ -2,9 +2,9 @@ name: Daily News Digest
 
 on:
   schedule:
-    # 每天 09:00 北京时间 = UTC 01:00
+    # UTC 01:00 = 北京时间 09:00
     - cron: '0 1 * * *'
-  workflow_dispatch:  # 手动触发
+  workflow_dispatch:
 
 jobs:
   send-news:
@@ -19,29 +19,12 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: |
-          pip install feedparser requests Pillow
+        run: pip install feedparser requests Pillow
 
-      - name: Create .env file
+      - name: Run fetch_news.py --wx
         env:
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
-        run: |
-          cat > news_digest/.env << 'EOF'
-          SMTP_HOST=${{ secrets.SMTP_HOST }}
-          SMTP_PORT=${{ secrets.SMTP_PORT }}
-          SMTP_USER=${{ secrets.SMTP_USER }}
-          SMTP_PASS=${{ secrets.SMTP_PASS }}
-          EOF
-
-      - name: Run news fetch & send email
-        run: |
-          cd news_digest
-          python3 scripts/fetch_news.py --wx
-        env:
-          SMTP_HOST: ${{ secrets.SMTP_HOST }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-          SMTP_USER: ${{ secrets.SMTP_USER }}
-          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+        run: python3 scripts/fetch_news.py --wx
