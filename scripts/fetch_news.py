@@ -91,7 +91,7 @@ def build_html(news, today_str, hero_b64, top_title):
     hero_img = f'<img src="{hero_b64}" alt="hero" style="width:100%;height:auto;border-radius:16px 16px 0 0;display:block;">' if hero_b64 else ""
     return f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><style>
 *{{box-sizing:border-box;margin:0;padding:0}}body{{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f0f2f7}}.c{{max-width:680px;margin:20px auto}}.hero{{border-radius:16px 16px 0 0;overflow:hidden}}.hd{{background:linear-gradient(135deg,#4F62E8,#7B5EE8);color:#fff;padding:28px 24px;text-align:center;border-radius:0 0 16px 16px;margin-top:-4px}}.hd h1{{font-size:22px;font-weight:700;margin-bottom:6px}}.hd p{{font-size:13px;opacity:.85}}.bar{{background:#fff;text-align:center;padding:10px;font-size:12px;color:#888;border-bottom:1px solid #eee}}.sec{{background:#fff;margin-bottom:12px;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06)}}.st{{padding:14px 20px 12px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}}.tech .st{{background:linear-gradient(90deg,#EEF3FF,#F5F7FF);color:#3B5BDB;border-bottom:2px solid #EEF3FF}}.econ .st{{background:linear-gradient(90deg,#EEF8F1,#F3FAF5);color:#2E7D32;border-bottom:2px solid #EEF8F1}}.geo .st{{background:linear-gradient(90deg,#FFF4E8,#FFF9F5);color:#C74B15;border-bottom:2px solid #FFF4E8}}.item{{padding:12px 20px;border-bottom:1px solid #f5f5f5;display:flex;align-items:flex-start;gap:10px}}.item:last-child{{border-bottom:none}}.num{{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;background:#F0F0F0;border-radius:50%;font-size:11px;font-weight:700;color:#888;flex-shrink:0;margin-top:2px}}.t{{font-size:14px;font-weight:600;color:#1a1a1a;line-height:1.4;text-decoration:none}}.t:hover{{color:#4F62E8}}.desc{{font-size:12px;color:#666;margin-top:4px;line-height:1.5}}.meta{{font-size:11px;color:#aaa;margin-top:4px}}.age{{background:#f5f5f5;padding:1px 6px;border-radius:8px;margin-left:6px}}.ft{{text-align:center;color:#aaa;font-size:11px;padding:16px;background:#fff;border-radius:0 0 16px 16px;line-height:1.8}}
-</style></head><body><div class="c">{hero_img}<div class="hd"><h1>📰 每日新闻精选</h1><p>科技 · 经济 · 国际局势 · {today_str}</p></div><div class="bar">📡 数据更新时间：{today_str} {datetime.now(TZ_SH).strftime("%H:%M")}</div><div class="sec tech"><div class="st">💻 科技新闻 Top {len(tech)}</div>{items_html(tech)}</div><div class="sec econ"><div class="st">💰 经济新闻 Top {len(econ)}</div>{items_html(econ)}</div><div class="sec geo"><div class="st">🌍 国际局势 Top {len(intl)}</div>{items_html(intl)}</div><div class="ft">由 阿尔法的1号机器人 自动生成 · 仅供参考</div></div></body></html>'''
+</style></head><body><div class="c">{hero_img}<div class="hd"><h1>📰 （国内版）每日新闻精选</h1><p>科技 · 经济 · 国际局势 · {today_str}</p></div><div class="bar">📡 数据更新时间：{today_str} {datetime.now(TZ_SH).strftime("%H:%M")}</div><div class="sec tech"><div class="st">💻 科技新闻 Top {len(tech)}</div>{items_html(tech)}</div><div class="sec econ"><div class="st">💰 经济新闻 Top {len(econ)}</div>{items_html(econ)}</div><div class="sec geo"><div class="st">🌍 国际局势 Top {len(intl)}</div>{items_html(intl)}</div><div class="ft">由 阿尔法的1号机器人 自动生成 · 仅供参考</div></div></body></html>'''
 
 # ── 公众号兼容版 HTML（基于用户参考设计） ──
 
@@ -106,7 +106,7 @@ def build_html_wx(news, today_str, hero_b64):
     econ  = [n for n in news if n["category"] == "econ"][:5]
     intl  = [n for n in news if n["category"] == "intl"][:5]
 
-    top = news[0] if news else {"title": "每日新闻精选", "summary": "", "link": ""}
+    top = news[0] if news else {"title": "（国内版）每日新闻精选", "summary": "", "link": ""}
     now_hm = datetime.now(TZ_SH).strftime("%H:%M")
 
     # ── 头条卡片（已移除图片区域） ──
@@ -183,7 +183,7 @@ def build_html_wx(news, today_str, hero_b64):
         f'{news_section(svg_intl, "国际局势", "#C74B15", intl)}'
         # 页脚
         f'<div style="text-align:center;padding:20px 16px;font-size:12px;color:#666;">'
-        f'<p style="margin:0 0 4px;">每日新闻精选 · GLOBAL NEWS NETWORK</p>'
+        f'<p style="margin:0 0 4px;">（国内版）每日新闻精选 · GLOBAL NEWS NETWORK</p>'
         f'<p style="margin:0;">© 2026 Global News Network. Disclaimer: AI-curated for informational purposes.</p>'
         f'</div>'
         f'</section>'
@@ -222,7 +222,7 @@ def main():
 
     print(f"\n📊 去重后共 {len(deduped)} 条新闻")
 
-    top_title = deduped[0]["title"] if deduped else "每日新闻精选"
+    top_title = deduped[0]["title"] if deduped else "（国内版）每日新闻精选"
     hero_text = top_title[:20] + ("..." if len(top_title) > 20 else "")
     print(f"🖼️ 生成 Hero 图: {hero_text}")
     hero_b64 = generate_hero(hero_text, today_str)
@@ -236,7 +236,7 @@ def main():
         html_file.write_text(html, encoding="utf-8")
         print(f"💾 公众号版 HTML 已保存: {html_file}")
         if not no_send:
-            subj = f"每日新闻精选 · {now.strftime('%Y-%m-%d')}"
+            subj = f"（国内版）每日新闻精选 · {now.strftime('%Y-%m-%d')}"
             print("[send email]...")
             r = subprocess.run(["python3", str(SEND_SCRIPT), subj, str(html_file), str(html_file)], capture_output=True, text=True, timeout=60)
             print(r.stdout[:300])
@@ -249,7 +249,7 @@ def main():
     print(f"💾 HTML 已保存: {html_file}")
 
     if not no_send:
-        subj = f"每日新闻精选 · {now.strftime('%Y-%m-%d')}"
+        subj = f"（国内版）每日新闻精选 · {now.strftime('%Y-%m-%d')}"
         print(f"\n✉️  发送邮件...")
         r = subprocess.run(["python3", str(SEND_SCRIPT), subj, str(html_file), str(html_file)], capture_output=True, text=True, timeout=60)
         print(r.stdout[:300])
