@@ -38,14 +38,17 @@ def send(subject, html_body, html_file=None, to=None):
     :param subject: 邮件主题
     :param html_body: HTML 正文
     :param html_file: 要附加的 HTML 文件路径（可选）
-    :param to: 收件人地址（默认 806176940@qq.com）
+    :param to: 收件人地址，单个字符串或列表（默认 806176940@qq.com + annieyang0326@outlook.com）
     """
     env = load_env()
     smtp_host = env.get("SMTP_HOST", "smtp.qq.com")
     smtp_port = int(env.get("SMTP_PORT", "465"))
     smtp_user = env.get("SMTP_USER", "806176940@qq.com")
     smtp_pass = env.get("SMTP_PASS", "")
-    to_addr = to or "806176940@qq.com"
+    if to:
+        to_list = [to] if isinstance(to, str) else to
+    else:
+        to_list = ["806176940@qq.com", "annieyang0326@outlook.com"]
 
     if not smtp_pass:
         # 回退到已知的授权码
@@ -55,7 +58,7 @@ def send(subject, html_body, html_file=None, to=None):
     msg = MIMEMultipart("mixed")
     msg["Subject"] = subject
     msg["From"] = smtp_user
-    msg["To"] = to_addr
+    msg["To"] = ", ".join(to_list)
 
     # HTML 正文
     msg.attach(MIMEText(html_body, "html", "utf-8"))
@@ -74,7 +77,7 @@ def send(subject, html_body, html_file=None, to=None):
     ctx.verify_mode = ssl.CERT_NONE
     with smtplib.SMTP_SSL(smtp_host, smtp_port, context=ctx) as server:
         server.login(smtp_user, smtp_pass)
-        server.sendmail(smtp_user, to_addr, msg.as_string())
+        server.sendmail(smtp_user, to_list, msg.as_string())
 
     return f"<{os.urandom(8).hex()}@qq.com>"
 
