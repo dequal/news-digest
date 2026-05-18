@@ -38,7 +38,7 @@ def send(subject, html_body, html_file=None, to=None):
     :param subject: 邮件主题
     :param html_body: HTML 正文
     :param html_file: 要附加的 HTML 文件路径（可选）
-    :param to: 收件人地址，单个字符串或列表（默认 806176940@qq.com + annieyang0326@outlook.com）
+    :param to: 收件人地址，单个字符串或列表（默认 806176940@qq.com + yuxiayang0326@163.com）
     """
     env = load_env()
     smtp_host = env.get("SMTP_HOST", "smtp.qq.com")
@@ -48,7 +48,7 @@ def send(subject, html_body, html_file=None, to=None):
     if to:
         to_list = [to] if isinstance(to, str) else to
     else:
-        to_list = ["806176940@qq.com", "annieyang0326@outlook.com"]
+        to_list = ["806176940@qq.com", "yuxiayang0326@163.com"]
 
     if not smtp_pass:
         # 回退到已知的授权码
